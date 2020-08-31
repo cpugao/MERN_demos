@@ -5,7 +5,7 @@ const sitAtTableImgUrl =
 const tableFlipImgUrl =
   "https://i.kym-cdn.com/entries/icons/facebook/000/006/306/FlipTable.jpg";
 
-const wrapperDiv = document.getElementById("root");
+const rootDiv = document.getElementById("root");
 const flipTableBtn = document.createElement("button");
 
 flipTableBtn.innerText = "Flip Table For Catharsis.";
@@ -17,7 +17,7 @@ flipTableBtn.addEventListener("click", (event) => {
   firstPerson.flipTable(cheapTable);
 });
 
-wrapperDiv.appendChild(flipTableBtn);
+rootDiv.appendChild(flipTableBtn);
 
 class Person {
   constructor(firstName, lastName) {
@@ -102,7 +102,7 @@ class Table {
 
     this.imgNode = document.createElement("img");
     this.imgNode.style.width = "70%";
-    wrapperDiv.appendChild(this.imgNode);
+    rootDiv.appendChild(this.imgNode);
 
     this.activeImg = images.default;
   }
