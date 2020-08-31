@@ -7,5 +7,5 @@
 - [Sorts Resources](../../sorts/Sorts.md)
 
 1. Mon
-   - [bubbleSort](../../sorts/bubbleSort.js)
-   - [selectionSort](../../sorts/selectionSort.js)
+   - [bubbleSort](../../sorts/bubbleSortSln.js)
+   - [selectionSort](../../sorts/selectionSortSln.js)
