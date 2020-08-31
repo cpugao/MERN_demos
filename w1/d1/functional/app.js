@@ -60,6 +60,7 @@ const oddNums = numbers.filter((num) => {
 
 // console.log(oddNums);
 
+// whether we specify a 2nd paramter or not in our arrow function, the index is always passed to our arrow function at the 2nd position
 const evenNumsAtEvenIndicies = numbers.filter((num, i) => {
   if (num % 2 === 0 && i % 2 === 0) {
     return true;
