@@ -9,6 +9,6 @@
 
 ### [Stable](https://www.geeksforgeeks.org/stability-in-sorting-algorithms/)
 
-- It is stalbe if when there are duplicates, the duplicates are left in original order relative to one another
+- It is stable if when there are duplicates, the duplicates are left in original order relative to one another
 - Making a sort stable incurs overhead (takes more time)
 - Click the above link for an example of when stability is needed

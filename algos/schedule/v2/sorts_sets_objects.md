@@ -9,3 +9,5 @@
 1. Mon
    - [bubbleSort](../../sorts/bubbleSortSln.js)
    - [selectionSort](../../sorts/selectionSortSln.js)
+2. Tue
+   - [insertionSort](../../sorts/insertionSort.js)
