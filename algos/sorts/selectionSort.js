@@ -21,6 +21,28 @@ const numsRandomOrder = [9, 2, 5, 6, 4, 3, 7, 10, 1, 8];
 const numsReversed = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 const expected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-function selectionSort(nums) {}
+function selectionSort(nums) {
+  const len = nums.length;
+  let selectedIdx = 0;
+  let idxOfCurrMin = 0;
+
+  while (selectedIdx < len) {
+    for (let i = selectedIdx; i < len; i++) {
+      if (nums[i] < nums[idxOfCurrMin]) {
+        idxOfCurrMin = i;
+      }
+    }
+
+    if (nums[selectedIdx] !== nums[idxOfCurrMin]) {
+      const temp = nums[selectedIdx];
+      nums[selectedIdx] = nums[idxOfCurrMin];
+      nums[idxOfCurrMin] = temp;
+    }
+    selectedIdx += 1;
+    // reset idxOfCurrMin to the next selected index we are going to work with to find the next min
+    idxOfCurrMin = selectedIdx;
+  }
+  return nums;
+}
 
 module.exports = { selectionSort };
