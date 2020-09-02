@@ -52,6 +52,17 @@ const expectedSort = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
  * Avg:     O(n log(n)) linearithmic
  * Worst:   O(n log(n)) linearithmic
  */
-function mergeSort(nums) {}
+function mergeSort(nums) {
+  if (nums.length === 1) {
+    // return once we hit an array with a single item
+    return nums;
+  }
+
+  const middle = Math.floor(nums.length / 2); // get the middle item of the array rounded down
+  const left = nums.slice(0, middle); // items on the left side
+  const right = nums.slice(middle); // items on the right side
+
+  return merge(mergeSort(left), mergeSort(right));
+}
 
 module.exports = { merge, mergeSort };
