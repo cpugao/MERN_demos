@@ -11,3 +11,5 @@
    - [selectionSort](../../sorts/selectionSortSln.js)
 2. Tue
    - [insertionSort](../../sorts/insertionSort.js)
+3. Wed
+   - [mergeSort](../../sorts/mergeSort.js)
