@@ -32,7 +32,26 @@ const nums2 = [1, 17, 12, 3, 9, 13, 21, 4, 27];
  *          Index indicating the end of the slice of @nums being processed
  * @return  {Array<number>}
  *          @nums after being partitioned
- * Time:    O(...)
- * Space:   O(...)
+ * Time:    O(n) linear, n = nums.length
+ * Space:   O(1) constant
+ * Hoare’s partitioning scheme, named for Sir Charles Anthony Richard Hoare, who developed the quicksort algorithm in 1959.
+ * does fewer swaps than Lomuto
+ * NOTE that in this scheme, the pivot’s final location is not necessarily at the index that was returned (some edge cases)
  */
-function partition(nums = [], left = 0, right = nums.length - 1) {}
+function partition(nums = [], left = 0, right = nums.length - 1) {
+  const midIdx = Math.floor((left + right) / 2);
+  const pivotVal = nums[midIdx];
+
+  while (left < right) {
+    while (nums[left] < pivotVal) {
+      left++;
+    }
+
+    while (nums[right] > pivotVal) {
+      right--;
+    }
+    // array destructure swap syntax
+    [nums[left], nums[right]] = [nums[right], nums[left]];
+  }
+  return left;
+}
