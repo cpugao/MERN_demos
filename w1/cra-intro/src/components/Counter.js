@@ -1,5 +1,6 @@
 import React from "react";
 
+// props is an object that is passed in FROM THE PARENT
 class Counter extends React.Component {
   // props are initial values when instantiated, if they need to change, add them to state
   constructor(props) {
@@ -21,6 +22,17 @@ class Counter extends React.Component {
      * when it is executed from a different context with a different value for `this`
      */
     // this.handleClick = this.handleClick.bind(this);
+  }
+
+  // componentDidUpdate is a "lifecycle" method
+  // whenever the component updates AFTER it as first been added to the page (mounted)
+  // this method is automatically called by react, and the prevProps and prevState (and more, see docs) are provided
+  // so we can compare them to the current props and state, if needed
+  componentDidUpdate(prevProps, prevState) {
+    console.log(`componentDidUpdate prevProps:`, prevProps);
+    console.log("current props:", this.props);
+    console.log(`componentDidUpdate prevState:`, prevState);
+    console.log("current state:", this.state);
   }
 
   // method added to class
