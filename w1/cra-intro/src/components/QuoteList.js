@@ -11,7 +11,7 @@ const QuoteList = (props) => {
 
   const [author, setAuthor] = useState("");
   const [quoteText, setQuoteText] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedColor, setSelectedColor] = useState("black");
 
   const handleDelete = (delIdx) => {
     // never update state DIRECTLY, only through the provided function
@@ -34,16 +34,34 @@ const QuoteList = (props) => {
       // long-form
       // author: author,
       text: quoteText,
-      color: selectedColor, // replace this with value of an input box
+      color: selectedColor,
+      isSelected: false,
     };
 
     // when setting new state for an array or object, MUST pass in a NEW array or object or else it WONT update
 
     setQuotes([...quotes, newQuote]);
+
+    // in order for these updates to the state to change the input boxes, the input boxes must have a value attribute tied to these state variables
+    setQuoteText("");
+    setAuthor("");
+    setSelectedColor("black");
+  };
+
+  const selectQuote = (selectedIdx) => {
+    // before updating the quote, make a copy so we don't mutate state directly
+    const copiedQuote = { ...quotes[selectedIdx] };
+    copiedQuote.isSelected = !copiedQuote.isSelected;
+
+    // before updating quotes list, make a copy so we don't mutate state directly
+    const copiedQuotes = [...quotes];
+    copiedQuotes[selectedIdx] = copiedQuote;
+
+    setQuotes(copiedQuotes);
   };
 
   // if we didn't use .map we would have to do something like this
-  const getListOfSingleQuotes = () => {
+  const buildListOfSingleQuotes = () => {
     const newArr = [];
 
     for (let i = 0; i < quotes.length; i++) {
@@ -63,7 +81,6 @@ const QuoteList = (props) => {
         </div>
       );
     }
-
     return newArr;
   };
 
@@ -81,6 +98,7 @@ const QuoteList = (props) => {
               setAuthor(event.target.value);
             }}
             type="text"
+            value={author}
           />
         </div>
         <div>
@@ -90,16 +108,22 @@ const QuoteList = (props) => {
               setQuoteText(event.target.value);
             }}
             type="text"
+            value={quoteText}
           />
         </div>
         <div>
           <label>Quote Color: </label>
-          <input
+          <select
             onChange={(event) => {
               setSelectedColor(event.target.value);
             }}
-            type="text"
-          />
+            value={selectedColor}
+          >
+            <option value="black">black</option>
+            <option value="#800000">dark red</option>
+            <option value="blue">blue</option>
+            <option value="green">green</option>
+          </select>
         </div>
         <button>Submit</button>
       </form>
@@ -108,9 +132,25 @@ const QuoteList = (props) => {
       {/* {getListOfSingleQuotes()} */}
 
       {quotes.map((quote, i) => {
+        const quoteStyles = {
+          marginBottom: "10px",
+        };
+
+        if (quote.isSelected) {
+          quoteStyles.border = "1px solid red";
+          quoteStyles.boxShadow = "10px 5px 5px black";
+        }
+        console.log(quoteStyles);
+
         return (
-          <div key={i}>
-            <SingleQuote quote={quote} />
+          <div key={i} style={quoteStyles}>
+            <div
+              onClick={(event) => {
+                selectQuote(i);
+              }}
+            >
+              <SingleQuote quote={quote} />
+            </div>
             <button
               onClick={(event) => {
                 handleDelete(i);
@@ -118,7 +158,6 @@ const QuoteList = (props) => {
             >
               Delete
             </button>
-            <hr />
           </div>
         );
       })}
