@@ -55,3 +55,5 @@ function partition(nums = [], left = 0, right = nums.length - 1) {
   }
   return left;
 }
+
+module.exports = { partition };

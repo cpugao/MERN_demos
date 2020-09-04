@@ -99,27 +99,3 @@ function mergeSort(nums) {
 }
 
 module.exports = { merge: merge2, mergeSort };
-
-function merge2(left, right) {
-  let result = [];
-  let indexLeft = 0;
-  let indexRight = 0;
-
-  while (1) {
-    if (indexLeft >= left.length && indexRight >= right.length) {
-      break;
-    }
-
-    // if indexRight is out of bounds, this will keep pushing the remaining left values in
-    if (indexRight >= right.length || left[indexLeft] <= right[indexRight]) {
-      // post-increment, access first, then increment after
-      result.push(left[indexLeft++]);
-    } else if (
-      indexLeft >= left.length ||
-      right[indexRight] < left[indexLeft]
-    ) {
-      result.push(right[indexRight++]);
-    }
-  }
-  return result;
-}
