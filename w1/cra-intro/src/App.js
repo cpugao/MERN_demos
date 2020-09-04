@@ -12,25 +12,16 @@ function App() {
       <h1>Hello from create react app</h1>
 
       <h3>Quotes List 1</h3>
-      <QuoteList
-        quotes={[
-          "Born too early to explore the galaxy. Born too late to explore the earth. Born just in time to browse dank memes.",
-          "I'll study later.",
-          "I'm leaving the house right now.",
-        ]}
-      />
+      <QuoteList />
 
-      <h3>Quotes List 2</h3>
-      <QuoteList quotes={["Quote 1", "Quote 2", "Quote 3"]} />
-      <hr />
       {/* children go in between opening and closing tags just like in HTML */}
-      <SingleQuote prop1="val1" prop2="val2">
+      {/* <SingleQuote prop1="val1" prop2="val2">
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum
         molestias est temporibus amet, commodi nemo aspernatur dignissimos
         blanditiis veritatis cupiditate numquam earum dolorum debitis
         necessitatibus officiis doloribus quasi aliquid sequi{" "}
         <span>a child span...</span>
-      </SingleQuote>
+      </SingleQuote> */}
 
       {/* <Counter></Counter> */}
       {/* <Counter someProp="someValue" /> */}
