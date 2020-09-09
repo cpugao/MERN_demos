@@ -33,57 +33,58 @@ const expected = [1, 2, 2, 2, 6, 6, 7];
  */
 function orderedMultisetUnion(sortedA, sortedB) {
   const res = [];
-  let idx1 = 0,
-    idx2 = 0;
+  let idxA = 0,
+    idxB = 0;
 
-  while (idx1 < sortedA.length || idx2 < sortedB.length) {
-    if (idx1 === sortedA.length) {
+  while (idxA < sortedA.length || idxB < sortedB.length) {
+    if (idxA === sortedA.length) {
       // sortedB is longer, push in all remaining sortedB nums
-      res.push(sortedB[idx2++]);
+      res.push(sortedB[idxB++]);
       continue;
-    } else if (idx2 === sortedB.length) {
+    } else if (idxB === sortedB.length) {
       // sortedA is longer, push in remaining sortedA nums
-      res.push(sortedA[idx1++]);
+      res.push(sortedA[idxA]);
+      indxA++;
       continue;
     }
 
-    if (sortedA[idx1] === sortedB[idx2]) {
-      res.push(sortedA[idx1++]);
-      idx2++; // since both were same, increment both
-    } else if (sortedA[idx1] < sortedB[idx2]) {
-      res.push(sortedA[idx1++]);
+    if (sortedA[idxA] === sortedB[idxB]) {
+      res.push(sortedA[idxA++]);
+      idxB++; // since both were same, increment both
+    } else if (sortedA[idxA] < sortedB[idxB]) {
+      res.push(sortedA[idxA++]);
     } else {
-      res.push(sortedB[idx2++]);
+      res.push(sortedB[idxB++]);
     }
   }
   return res;
 }
 
 function orderedMultisetUnion2(sortedA, sortedB) {
-  let idx1 = 0,
-    idx2 = 0;
+  let idxA = 0,
+    idxB = 0;
   const ret = [],
     len1 = sortedA.length,
     len2 = sortedB.length;
 
-  while (idx1 < len1 && idx2 < len2) {
-    const n1 = sortedA[idx1],
-      n2 = sortedB[idx2];
+  while (idxA < len1 && idxB < len2) {
+    const n1 = sortedA[idxA],
+      n2 = sortedB[idxB];
 
     if (n1 === n2) {
       ret.push(n1);
-      idx1++;
-      idx2++;
+      idxA++;
+      idxB++;
     } else if (n1 < n2) {
       ret.push(n1);
-      idx1++;
+      idxA++;
     } else {
       ret.push(n2);
-      idx2++;
+      idxB++;
     }
   }
   // arrays might be different lengths, if any elems are remaining, concat them
-  return ret.concat(sortedA.slice(idx1)).concat(sortedB.slice(idx2));
+  return ret.concat(sortedA.slice(idxA)).concat(sortedB.slice(idxB));
 }
 
 module.exports = { orderedMultisetUnion };
