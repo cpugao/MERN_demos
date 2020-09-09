@@ -25,9 +25,26 @@ const expected = 2;
  * @return  {number}
  *          Represents the absolute (Math.abs) difference between
  *          the top left to bottom right diagonal and the top right to bottom left diagonal
- * Time:    O(...)
- * Space:   O(...)
+ * Time:    O(n) linear
+ * Space:   O(1) constant
  */
-function diagonalDifference(sqrMatrix) {}
+function diagonalDifference(sqrMatrix) {
+  let ltrSum = 0,
+    rtlSum = 0;
+
+  for (let i = 0; i < sqrMatrix.length; i++) {
+    const row = sqrMatrix[i];
+    ltrSum += row[i];
+    rtlSum += row[row.length - i - 1];
+  }
+  return Math.abs(ltrSum - rtlSum);
+}
+
+function diagonalDifference2(sqrMatrix) {
+  let diff = 0;
+
+  sqrMatrix.forEach((row, i) => (diff += row[i] - row[row.length - i - 1]));
+  return Math.abs(diff);
+}
 
 module.exports = { diagonalDifference };
