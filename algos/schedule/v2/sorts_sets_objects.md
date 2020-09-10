@@ -22,8 +22,12 @@
 
 - [sets intro](../../arrays/sets.md)
 
-1. Mon
+1. Tue
    - [orderedIntersection](../../arrays/orderedIntersection.js)
-2. Tue
+2. Wed
    - [diagonalDifference](../../arrays/diagonalDifference.js)
    - [orderedMultisetUnion](../../arrays/orderedMultisetUnion.js)
+3. Thur
+   - [symmetricDifferences](../../arrays/symmetricDifferences.js)
+   - [allNonConsecutive](../../arrays/allNonConsecutive.js)
+   - [findConsqSums](../../arrays/findConsqSums.js)
