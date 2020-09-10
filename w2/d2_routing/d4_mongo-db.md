@@ -27,6 +27,20 @@
 
 ---
 
+## SQL Joins analogy
+
+- ![Drawers](https://d1aia7xnsrp3xh.cloudfront.net/wp-content/uploads/2014/09/sql-database.jpg)
+  - Each drawer is a table, each card in the drawer is a row in the table
+  - Imagine one drawer is full of cards with information about a Sales Agent
+  - Imagine the other drawer is full of cards with information about a Customer
+  - 1 sales agent is related to many customers
+  - In order to get the information about 1 sales agent and all of their customers info
+    1. Find the sales agent card by flipping through (find by id or name)
+    2. Flip through all the customer cards to find each customer that has the sales agents id on it (Foreign Key)
+    3. Join the data on these cards together so you have info for 1 sales agent and their many customers
+
+---
+
 ### Disadvantages
 
 - too unstructured, can get messy
