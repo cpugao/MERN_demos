@@ -25,9 +25,24 @@ const expected1 = [
  * @return   {output}
  *           Array of objects that detail the found non-consecutive numbers
  *           and their location, see above typedef.
- * Time:     O(...)
- * Space:    O(...)
+ * Time:     O(n) linear time
+ * Space:    O(n) potentially all are saved in new array
  */
-function allNonConsecutive(sortedNums) {}
+function allNonConsecutive(sortedNums) {
+  const output = [];
+
+  for (let i = 1; i < sortedNums.length; i++) {
+    const prevNum = sortedNums[i - 1];
+    const currNum = sortedNums[i];
+
+    if (prevNum + 1 !== currNum) {
+      output.push({
+        i: i,
+        n: currNum,
+      });
+    }
+  }
+  return output;
+}
 
 module.exports = { allNonConsecutive };

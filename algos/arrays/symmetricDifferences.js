@@ -35,9 +35,57 @@ const expected3 = [4, 5];
  * @return {Array<number>}
  *         The union of @setA and @setB but excluding the shared values (union without intersection)
  *         i.e., if the element is in one array and NOT the other, it should be included in the return.
- * Time:   O(...)
- * Space:  O(...)
+ * Time:   O(2(n * m)) -> O(n * m)
+ *         n = setA.length,
+ *         m = setB.length the two constant 2 was because we are doing the n * m twice.
+ *         The constant 2 is dropped.
+ * Space:  O(n + m) because potentially all items from each are kept.
  */
-function symmetricDifferences(setA, setB) {}
+function symmetricDifferences(setA, setB) {
+  const disjunctiveUnion = [];
+
+  for (const n of setA) {
+    if (setB.includes(n) === false && disjunctiveUnion.includes(n) === false) {
+      disjunctiveUnion.push(n);
+    }
+  }
+
+  for (const n of setB) {
+    if (setA.includes(n) === false && disjunctiveUnion.includes(n) === false) {
+      disjunctiveUnion.push(n);
+    }
+  }
+  return disjunctiveUnion;
+}
+
+// Time: O(2(n + m)) -> O(n) linear, n = setA.length, m = setB.length. Each is looped over twice, once from the arr then again over it's seen hash table
+// Space: O(2(n + m)) each arr is stored twice, once in it's own seen table and once in the output array
+function symmetricDifferencesHashTable(setA, setB) {
+  const seenA = {};
+  const seenB = {};
+  const disjunctiveUnion = [];
+
+  for (const num of setA) {
+    // adding the num as the value avoids having to convert the string key back to int
+    seenA[num] = num;
+  }
+
+  for (const num of setB) {
+    seenB[num] = num;
+  }
+
+  for (const key in seenA) {
+    if (seenB.hasOwnProperty(key) === false) {
+      disjunctiveUnion.push(seenA[key]);
+    }
+  }
+
+  for (const key in seenB) {
+    if (seenA.hasOwnProperty(key) === false) {
+      disjunctiveUnion.push(seenB[key]);
+    }
+  }
+  return disjunctiveUnion;
+}
 
 module.exports = { symmetricDifferences };

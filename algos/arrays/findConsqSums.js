@@ -29,9 +29,33 @@ const expected2 = [
  * @return {Array<Array<number>>} - 2d array where each nested array
  *         is a set of consecutive numbers that add up to the @targetSum
  *         Consecutive in this context means the numbers whose indexes are one after the other only.
- * Time:   O(...)
- * Space:  O(...)
+ * Time:   O(n^2) quadratic
+ * Space:  O(n^2)
  */
-function findConsqSums(nums, targetSum) {}
+function findConsqSums(nums, targetSum) {
+  const sums = [];
+
+  for (let i = 0; i < nums.length; i++) {
+    const consecNums = [];
+    let sum = 0;
+    let j = i;
+
+    while (sum <= targetSum && j < nums.length - 1) {
+      if (sum + nums[j] <= targetSum) {
+        sum += nums[j];
+        consecNums.push(nums[j++]);
+
+        if (sum === targetSum) {
+          // without slice, future additions to consecNums
+          // will be added to the already pushed consecNums via reference
+          sums.push(consecNums.slice());
+        }
+      } else {
+        break;
+      }
+    }
+  }
+  return sums;
+}
 
 module.exports = { findConsqSums };
