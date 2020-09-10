@@ -55,10 +55,10 @@
 ## Mongo Shell
 
 1. start server via `mongod.exe` (usually already running)
-   - `call "c:/Program Files/MongoDB/Server/4.2/bin/mongod.exe"`
+   - `call "c:/Program Files/MongoDB/Server/{{folder name with version number in it}}/bin/mongod.exe"`
    - `mongod` if added to path
 2. `mongo.exe` opens shell
-   - `call "C:\Program Files\MongoDB\Server\4.2\bin\mongo.exe"`
+   - `call "C:\Program Files\MongoDB\Server\{{folder name with version number in it}}\bin\mongo.exe"`
    - `mongo` if added to path
 3. `show dbs`
 4. `use db_name`
@@ -66,6 +66,19 @@
 5. `show collections`
 
 - after today you'll be writing queries in js instead of shell, similar to what you did with py
+
+### Add to path windows
+
+- this is to avoid having to `cd` to the above path in order to run the server or shell
+
+1. press windows key
+2. type environment
+3. open "edit the system environment variables"
+4. click Environment Variables
+5. click Path row
+6. click Edit
+7. add your directory path to your MongoDB `bin` folder
+   - `C:\Program Files\MongoDB\Server\{{folder with version number in it}}\bin\`
 
 ---
 
@@ -102,8 +115,7 @@
 ### Find
 
 - `db.collectionName.find({key1: val1, key2: val2})`
-- `db.collectionName.findById(id);`
-  - doesn't work in shell but works with mongoose
+- `db.collectionName.findById(ObjectId("id"));`
 
 ---
 
