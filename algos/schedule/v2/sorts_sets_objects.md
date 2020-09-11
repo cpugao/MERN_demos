@@ -31,3 +31,6 @@
    - [symmetricDifferences](../../arrays/symmetricDifferences.js)
    - [allNonConsecutive](../../arrays/allNonConsecutive.js)
    - [findConsqSums](../../arrays/findConsqSums.js)
+4. Fri
+   - [twoSum](../../arrays/twoSum.js)
+   - [kMostFrequent](../../arrays/kMostFrequent.js)
