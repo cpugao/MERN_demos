@@ -98,4 +98,15 @@ module.exports = {
         res.json(err);
       });
   },
+
+  // extra, if you want a form submission or postman submission to find by multiple keys
+  findByFormInfo(req, res) {
+    City.find(req.body)
+      .then((cities) => {
+        res.json(cities);
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  },
 };
