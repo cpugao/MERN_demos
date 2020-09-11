@@ -20,9 +20,38 @@ const expected1 = [0, 2];
  * @param  {number} targetSum
  * @return {Array<number>}
  *         The two indexes of the numbers in @nums that add up to @targetSum
- * Time:   O(...)
- * Space:  O(...)
+ * Time:   O(n) linear
+ * Space:  O(n)
  */
-function twoSum(nums, targetSum) {}
+function twoSum(nums, targetSum) {
+  const numsAndIndices = {};
+
+  for (let i = 0; i < nums.length; i++) {
+    const num = nums[i],
+      diff = targetSum - num;
+
+    if (numsAndIndices.hasOwnProperty(diff)) {
+      const addendIdx = numsAndIndices[diff];
+      return [addendIdx, i];
+    }
+    numsAndIndices[num] = i;
+  }
+  return [];
+}
+
+// Time: O(n^2) quadratic, Space: O(1) constant
+function twoSumSpaceOptimized(nums, targetSum) {
+  const indexes = [];
+
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; ++j) {
+      if (nums[i] + nums[j] === targetSum) {
+        indexes.push(i, j);
+        break;
+      }
+    }
+  }
+  return indexes;
+}
 
 module.exports = { twoSum };
