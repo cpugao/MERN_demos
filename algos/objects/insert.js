@@ -64,8 +64,7 @@ function insert(tableName, columnValuePairs) {
 }
 
 /**
- * Time:    O(5n) -> O(n) linear
- *          .keys .join .values .map .join = 5 non-nested loops
+ * Time:    O(5n) -> O(n) n = num of keys
  * Space:   O(n)
  */
 function insertFunctional(tableName, columnValuePairs) {
