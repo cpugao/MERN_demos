@@ -21,5 +21,19 @@ const expected1 = [
  * @typedef {Array<Array<string, any>>} output
  *          The nested arrays should look like: [key, val]
  * @return  {output}
+ * Time:    O(n) linear, n = amount of keys
+ * Space:   O(n) linear
  */
-function entries(obj) {}
+function entries(obj) {
+  const keyValPairs = [];
+
+  for (const key in obj) {
+    // has own property means it is a prop directly on obj, not on it's proto
+    if (obj.hasOwnProperty(key)) {
+      const val = obj[key];
+
+      keyValPairs.push([key, val]);
+    }
+  }
+  return keyValPairs;
+}

@@ -31,11 +31,49 @@ const expected2 =
  *          A string formatted as a SQL insert statement
  *          where the columns and values are extracted
  *          from @columnValuePairs
+ * Time:    O(n) linear, n = num of keys
+ * Space:   O(n)
  */
-function insert(tableName, columnValuePairs) {}
+function insert(tableName, columnValuePairs) {
+  let columns = "";
+  let values = "";
 
-function insertFunctional(tableName, columnValuePairs) {}
+  for (const colName in columnValuePairs) {
+    if (columnValuePairs.hasOwnProperty(colName)) {
+      let val = columnValuePairs[colName];
 
-module.exports = {
-  insert,
-};
+      if (typeof val === "string") {
+        val = `'${val}'`;
+      }
+
+      // prepend a comma and space if it's not the first column added to string
+      if (columns === "") {
+        columns += colName;
+      } else {
+        columns += `, ${colName}`;
+      }
+
+      if (values === "") {
+        values += val;
+      } else {
+        values += `, ${val}`;
+      }
+    }
+  }
+  return `INSERT INTO ${tableName} (${columns}) VALUES (${values});`;
+}
+
+/**
+ * Time:    O(5n) -> O(n) linear
+ *          .keys .join .values .map .join = 5 non-nested loops
+ * Space:   O(n)
+ */
+function insertFunctional(tableName, columnValuePairs) {
+  const columns = Object.keys(columnValuePairs).join(", ");
+
+  const values = Object.values(columnValuePairs)
+    .map((val) => (typeof val === "string" ? `'${val}'` : val))
+    .join(", ");
+
+  return `INSERT INTO ${tableName} (${columns}) VALUES (${values});`;
+}
