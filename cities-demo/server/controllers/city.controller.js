@@ -15,7 +15,9 @@ module.exports = {
         res.json(city);
       })
       .catch((err) => {
-        res.json(err);
+        // so that axios' .catch will be triggered
+        // for validation errors and other errors
+        res.status(400).json(err);
       });
   },
 
@@ -92,10 +94,14 @@ module.exports = {
     })
       .then((city) => {
         // the city with updated information
+        console.log("update method .then");
         res.json(city);
       })
       .catch((err) => {
-        res.json(err);
+        // so that axios' .catch will be triggered
+        // for validation errors and other errors
+        console.log("update method .catch");
+        res.status(400).json(err);
       });
   },
 

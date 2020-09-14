@@ -1,22 +1,33 @@
-import React, { useState } from "react";
-import { navigate } from "@reach/router";
+import React, { useEffect, useState } from "react";
+import { navigate, Link } from "@reach/router";
 
 import axios from "axios";
 
-const NewCity = (props) => {
-  // console.log(props);
-  // useState returns an array of two items:
-  // [stateVar, funcToUpdateStateVar]
-  // destructure the two arr items into the two var names [name, setName]
+const EditCity = (props) => {
   const [name, setName] = useState("");
   const [population, setPopulation] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [errors, setErrors] = useState(null);
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/cities/" + props.id)
+      .then((res) => {
+        console.log("edit city .then!!!");
+        // console.log(res);
+        setName(res.data.name);
+        setPopulation(res.data.population);
+        setImgUrl(res.data.imgUrl);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   function handleSubmit(event) {
     event.preventDefault();
 
-    const newCity = {
+    const editedCity = {
       // long-form prop assignment
       name: name,
       // shorthand prop assignment when key name and var name are same
@@ -24,20 +35,21 @@ const NewCity = (props) => {
       imgUrl,
     };
 
-    console.log(newCity);
+    console.log(editedCity);
 
     axios
-      .post("http://localhost:8000/api/cities", newCity)
+      .put("http://localhost:8000/api/cities/" + props.id, editedCity)
       // response from our server
       .then((res) => {
         console.log(res);
         navigate("/cities");
       })
       .catch((err) => {
+        // console.error(err);
+
         // for validation errors to be sent here, the .catch in the controller method needs:
         // res.status(400).json(err);
         setErrors(err.response.data.errors);
-        console.error(err.response);
       });
   }
 
@@ -54,6 +66,11 @@ const NewCity = (props) => {
             onChange={(event) => {
               setName(event.target.value);
             }}
+            // value prop / attribute is only needed when we
+            // need to be able to change the input boxes value
+            // by setting it's state var
+            // without this, only the user can update the input box's value
+            value={name}
             type="text"
             className="form-control"
           />
@@ -68,6 +85,7 @@ const NewCity = (props) => {
             onChange={(event) => {
               setPopulation(event.target.value);
             }}
+            value={population}
             type="number"
             min="0"
             className="form-control"
@@ -83,6 +101,7 @@ const NewCity = (props) => {
             onChange={(event) => {
               setImgUrl(event.target.value);
             }}
+            value={imgUrl}
             type="text"
             className="form-control"
           />
@@ -90,10 +109,24 @@ const NewCity = (props) => {
             <span className="text-danger">{errors.imgUrl?.message}</span>
           )}
         </div>
-        <button className="btn btn-success">Submit</button>
+        <button className="btn btn-success mr-2">Submit</button>
+        <Link to="/cities">Cancel</Link>
+
+        {/* <button
+          onClick={(event) => {
+            // since this button is in a form
+            // if we don't want it to submit the form,
+            // must preventDefault behavior
+            event.preventDefault();
+            navigate("/cities");
+          }}
+          className="btn btn-info"
+        >
+          Cancel
+        </button> */}
       </form>
     </div>
   );
 };
 
-export default NewCity;
+export default EditCity;
