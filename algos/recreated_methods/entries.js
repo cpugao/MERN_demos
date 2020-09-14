@@ -15,8 +15,6 @@ const expected1 = [
   ["age", 13],
 ];
 
-const testCases = [{ arguments: [obj1], expected: expected1 }];
-
 /**
  * Returns a 2d array of key value pairs from @obj
  * @param   {Object} obj
