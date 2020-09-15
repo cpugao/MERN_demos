@@ -37,16 +37,49 @@ const expected2 = [
  * @param   {Array<Object>} collection
  * @return  {Array<Object>}
  *          The found objects.
- * Time:    O()
- * Space:   O()
+ * Time:    O(n * m)
+ *          n = @collection length
+ *          m = num of keys in @criteria
+ * Space:   O(n) linear
+ *          All objects in @collection could be a match.
  */
-function findObjects(criteria, collection) {}
+function findObjects(criteria, collection) {
+  const foundDocuments = [];
 
-/**
- * Time:    O()
- * Space:   O()
- */
-function findObjectsFunctional(criteria, collection) {}
+  for (const item of collection) {
+    let isMatch = true;
+
+    for (const searchKey in criteria) {
+      const searchVal = criteria[searchKey];
+
+      if (
+        item.hasOwnProperty(searchKey) === false ||
+        item[searchKey] !== searchVal
+      ) {
+        isMatch = false;
+        break;
+      }
+    }
+    if (isMatch) {
+      foundDocuments.push(item);
+    }
+  }
+  return foundDocuments;
+}
+
+function findObjectsFunction(criteria, collection) {
+  return collection.filter((doc) => {
+    for (const searchKey in criteria) {
+      if (
+        !doc.hasOwnProperty(searchKey) ||
+        doc[searchKey] !== criteria[searchKey]
+      ) {
+        return false;
+      }
+    }
+    return true;
+  });
+}
 
 module.exports = {
   findObjects,

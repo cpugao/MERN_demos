@@ -72,10 +72,33 @@ const expected3 = null;
  * @param   {Array<Object>} collection
  * @return  {(Object|null)}
  *          The object that was updated or null if no object found.
- * Time:    O()
- * Space:   O()
+ * Time:    O(n + m) linear
+ *          n = @collection length. Worst case is looping
+ *          m = @updatedVals num of keys
+ *          through the full collection because no id matched.
+ *          @updatedVals is only looped over one time despite being
+ *          a nested loop since it is within a condition, hence we
+ *          use addition instead of multiplication in the O notation.
+ *
+ * Space:   O(1) constant
  */
-function findByIdAndUpdate(id, updatedVals, collection) {}
+function findByIdAndUpdate(id, updatedVals, collection) {
+  for (const doc of collection) {
+    if (doc.id === id) {
+      for (const key in updatedVals) {
+        // only update keys that exist on the found object
+        if (doc.hasOwnProperty(key)) {
+          const newVal = updatedVals[key];
+
+          doc[key] = newVal;
+        }
+      }
+      return doc;
+    }
+  }
+  // above return didn't run so nothing was found
+  return null;
+}
 
 module.exports = {
   findByIdAndUpdate,
