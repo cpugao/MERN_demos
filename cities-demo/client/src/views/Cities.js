@@ -49,37 +49,46 @@ const Cities = (props) => {
   }
 
   return (
-    <div className="container">
+    <div className="container mt-5">
       {cities.map((city) => {
         return (
-          <div className="row justify-content-center p-3 mb-3" key={city._id}>
-            <div>
+          <div className="row mb-2 justify-content-center" key={city._id}>
+            <div className="col-md-7 p-2 shadow border rounded text-center">
               <h3>
                 <Link to={`/cities/${city._id}`}>{city.name}</Link>
               </h3>
               <p>Population: {city.population}</p>
-              <Link to={`/cities/${city._id}`}>
-                <img width="30%" src={city.imgUrl} alt={city.name} />
-              </Link>
-              <button
+              <img
                 onClick={(event) => {
-                  handleDelete(city._id);
+                  navigate(`/cities/${city._id}`);
                 }}
-                className="btn btn-danger mr-2"
-              >
-                Delete
-              </button>
-              {/* <Link to={`/cities/${city._id}/edit`}>
-                <span className="btn btn-warning">Edit</span>
-              </Link> */}
-              <button
-                onClick={(event) => {
-                  navigate(`/cities/${city._id}/edit`);
-                }}
-                className="btn btn-warning"
-              >
-                Edit
-              </button>
+                width="70%"
+                src={city.imgUrl}
+                alt={city.name}
+                style={{ cursor: "pointer" }}
+                className="rounded img-thumbnail"
+              />
+              <div className="mt-2">
+                <button
+                  onClick={(event) => {
+                    navigate(`/cities/${city._id}/edit`);
+                  }}
+                  className="btn btn-outline-warning mr-1"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={(event) => {
+                    handleDelete(city._id);
+                  }}
+                  className="btn btn-outline-danger"
+                >
+                  Delete
+                </button>
+                {/* <Link to={`/cities/${city._id}/edit`}>
+                  <span className="btn btn-warning">Edit</span>
+                </Link> */}
+              </div>
             </div>
           </div>
         );
