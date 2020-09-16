@@ -1,5 +1,6 @@
 import React from "react";
 
+// red belt will do routing to views instead of a component / nested component
 const SinglePost = (props) => {
   return (
     <div key={props.post._id}>

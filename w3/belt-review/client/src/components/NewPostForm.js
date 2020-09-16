@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 
 import axios from "axios";
-import { navigate } from "@reach/router";
+import Posts from "../views/Posts";
 
-const NewPost = (props) => {
+const NewPostForm = (props) => {
   // useState("initial value of the state var")
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [primaryCategory, setPrimaryCategory] = useState("");
   const [secondaryCategory, setSecondaryCategory] = useState("");
-  const [errors, setErrors] = useState(null);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -30,18 +29,26 @@ const NewPost = (props) => {
     if (secondaryCategory !== "") {
       newPost.secondaryCategory = secondaryCategory;
     }
-    // console.log(newPost);
+
+    console.log(newPost);
 
     axios
       .post("http://localhost:8000/api/posts", newPost)
       .then((res) => {
-        navigate("/posts");
+        console.log(res.data);
+        // Technique 1 (see comment in Posts.js)
+        // props.getAllPosts();
+        // Technique 2
+        props.setPosts([...props.posts, res.data]);
+
+        setTitle("");
+        setDescription("");
+        setImgUrl("");
+        setPrimaryCategory("");
+        setSecondaryCategory("");
       })
       .catch((err) => {
         console.log(err.response);
-        // validation errors come to .catch because controller method has
-        // res.status(400).json - without this the validation errors go to the .then
-        setErrors(err.response.data.errors);
       });
   }
 
@@ -54,70 +61,56 @@ const NewPost = (props) => {
       <div>
         <label>Title: </label>
         <input
+          value={title}
           type="text"
           onChange={(event) => {
             setTitle(event.target.value);
           }}
         />
-        {errors?.title && (
-          <span style={{ color: "red" }}>{errors?.title?.message}</span>
-        )}
       </div>
 
       <div>
         <label>Description: </label>
         <input
+          value={description}
           type="text"
           onChange={(event) => {
             setDescription(event.target.value);
           }}
         />
-        {errors?.description && (
-          <span style={{ color: "red" }}>{errors?.description?.message}</span>
-        )}
       </div>
 
       <div>
         <label>Image Url: </label>
         <input
+          value={imgUrl}
           type="text"
           onChange={(event) => {
             setImgUrl(event.target.value);
           }}
         />
-        {errors?.imgUrl && (
-          <span style={{ color: "red" }}>{errors?.imgUrl?.message}</span>
-        )}
       </div>
 
       <div>
         <label>Primary Category: </label>
         <input
+          value={primaryCategory}
           type="text"
           onChange={(event) => {
             setPrimaryCategory(event.target.value);
           }}
         />
-        {errors?.primaryCategory && (
-          <span style={{ color: "red" }}>
-            {errors?.primaryCategory?.message}
-          </span>
-        )}
       </div>
 
       <div>
         <label>Secondary Category: </label>
         <input
+          value={secondaryCategory}
           type="text"
           onChange={(event) => {
             setSecondaryCategory(event.target.value);
           }}
         />
-        {errors?.secondaryCategory && (
-          <span style={{ color: "red" }}>
-            {errors?.secondaryCategory?.message}
-          </span>
-        )}
       </div>
 
       <button>Submit</button>
@@ -125,4 +118,4 @@ const NewPost = (props) => {
   );
 };
 
-export default NewPost;
+export default NewPostForm;

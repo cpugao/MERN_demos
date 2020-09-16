@@ -5,6 +5,7 @@ import { Link, Redirect, Router } from "@reach/router";
 
 import NewPost from "./views/NewPost";
 import Posts from "./views/Posts";
+import Post from "./views/Post";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Router>
         <NewPost path="/posts/new" />
         <Posts path="/posts" />
+        <Post path="/posts/:id" />
       </Router>
     </div>
   );
