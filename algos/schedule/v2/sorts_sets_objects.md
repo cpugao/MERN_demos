@@ -43,3 +43,7 @@
 2. Tue
    - [findObjects](../../objects/findObjects.js)
    - [findByIdAndUpdate](../../objects/findByIdAndUpdate.js)
+3. Wed
+   - [filterByKey](../../objects/filterByKey.js)
+   - [coronaVirusAtRisk](../../objects/coronaVirusAtRisk.js)
+   - [santasNaughtyList](../../objects/santasNaughtyList.js)
