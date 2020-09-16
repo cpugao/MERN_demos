@@ -93,9 +93,75 @@ const expected4 = [
  *          The value of @searchBy key to match.
  * @return  {Array<Objects>}
  *          The filtered @items
- * Time:    O()
- * Space:   O()
+ * Time:    O(n * (@searchBy length + @searchFor length))
+ *          n = @items length
+ *          the @searchBy length + @searchFor length is due to the two
+ *          .toLowerCase methods which loop through the strings to lowerCase them.
+ * Space:   O(1) constant
  */
-function filterByKey(items, searchBy, searchFor) {}
+function filterByKey(
+  items,
+  searchBy,
+  searchFor,
+  stringSearchMethod = "startsWith",
+) {
+  return items.filter((item) =>
+    item[searchBy].toLowerCase()[stringSearchMethod](searchFor.toLowerCase()),
+  );
+}
+
+/* 
+  Reminder - bracket notation is needed instead of dot notation when: 
+    - the key / prop is stored in a variable
+    - key is not a string, the brackets will auto convert it to a string (like with array bracket indexing)
+
+  Bracket or dot notation simply accesses / retrieves the value of that key, whatever comes after is acting on the value
+*/
+console["log"]("bracket console log.");
+
+// access the log method and save it as a to a var via reference to the original log method
+const print1 = console.log;
+const print2 = console["log"];
+
+print1("print var references log method from dot notation.");
+print2("print var references log method from bracket notation.");
+
+let consoleMethod = "log";
+console[consoleMethod]("name of method saved to var.");
+
+consoleMethod = "table";
+console[consoleMethod](["a", "b", "c"]);
+
+function filterByKeyStartsWith(items, searchFor, searchBy) {
+  const filteredItems = [];
+
+  for (const item of items) {
+    if (item[searchBy].toLowerCase().startsWith(searchFor.toLowerCase())) {
+      filteredItems.push(item);
+    }
+  }
+  return filteredItems;
+}
+
+// early exit via not committing to lowerCasing full string
+function filterByKeyStartsWith2(items, searchFor, searchBy) {
+  const filteredItems = [];
+
+  for (const item of items) {
+    let match = true;
+    let searchVal = item[searchBy];
+
+    for (let i = 0; i < searchFor.length; i++) {
+      if (searchVal[i].toLowerCase() !== searchFor[i].toLowerCase()) {
+        match = false;
+        break;
+      }
+    }
+    if (match) {
+      filteredItems.push(item);
+    }
+  }
+  return filteredItems;
+}
 
 module.exports = { filterByKey };

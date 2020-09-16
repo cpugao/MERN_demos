@@ -52,17 +52,35 @@ const expected3 = [];
  * @param     {string} badHabit
  * @return    {Array<Person>}
  *            The objects that have a matching @badHabit
- * Time:      O()
- * Space:     O()
+ * Time:      O(n * m)
+ *            n = @persons length
+ *            m = habits.length
+ * Space:     O(n) linear
+ *            Every person could be matched.
  */
-function santasNaughtyList(persons, badHabit) {}
+function santasNaughtyList(persons, badHabit) {
+  const coalRecipients = [];
 
-/**
- * Time:      O()
- * Space:     O()
- */
-function santasNaughtyListFunctional(persons, badHabit) {}
+  for (let i = 0; i < persons.length; i++) {
+    const person = persons[i];
 
-module.exports = {
-  santasNaughtyList,
-};
+    for (let j = 0; j < person.habits.length; ++j) {
+      const personsHabit = person.habits[j];
+
+      if (personsHabit === badHabit) {
+        coalRecipients.push(`${person.firstName} ${person.lastName}`);
+        // found what we are looking for, no need to keep looping
+        break;
+      }
+    }
+  }
+  return coalRecipients;
+}
+
+// Time: O(n * m) + O(n) where n is persons.length and m is length of habits. The + O(n) is from the .map
+// Space: O(n) linear
+function santasNaughtyListFunctional(persons, badHabit) {
+  return persons
+    .filter((person) => person.habits.includes(badHabit))
+    .map((person) => `${person.firstName} ${person.lastName}`);
+}
