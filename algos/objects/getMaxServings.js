@@ -49,12 +49,6 @@ const expected2 = 10;
 const available3 = { ...available1, ["live squid"]: 0 };
 const expected3 = 0;
 
-const testCases = [
-  { arguments: [recipe1, available1], expected: expected1 },
-  { arguments: [recipe1, available2], expected: expected2 },
-  { arguments: [recipe1, available3], expected: expected3 },
-];
-
 function getMaxServings(recipe, available) {}
 
 module.exports = {
