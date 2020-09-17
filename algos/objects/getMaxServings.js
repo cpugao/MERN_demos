@@ -49,7 +49,54 @@ const expected2 = 10;
 const available3 = { ...available1, ["live squid"]: 0 };
 const expected3 = 0;
 
-function getMaxServings(recipe, available) {}
+/**
+ *
+ * @param   {Object} recipe
+ * @param   {Object} available
+ *          @recipe and @available keys are ingredient
+ *          names and values are int for the amount available.
+ * @return  {number}
+ *          Max servings that can be made from
+ *          @recipe using @available
+ * Time:    O(n) linear
+ *          n = @recipe number of keys.
+ * Space:   O(1) constant
+ */
+function getMaxServings(recipe, available) {
+  let limitingAmount = Infinity;
+
+  for (const reqIngred in recipe) {
+    const availableAmnt = available[reqIngred];
+    const reqAmnt = recipe[reqIngred];
+
+    if (!available.hasOwnProperty(reqIngred) || availableAmnt < reqAmnt) {
+      // missing ingredient, can't make any
+      return 0;
+    }
+
+    // how many servings can be made based on this 1 ingredient
+    let servingsPerIngred = availableAmnt / reqAmnt;
+
+    if (servingsPerIngred < limitingAmount) {
+      limitingAmount = servingsPerIngred;
+    }
+  }
+  return Math.floor(limitingAmount);
+}
+
+// source: Morley Tatro (renamed [key, value])
+// Time complexity: O(4n) but constant is dropped -> O(n)
+// 4n comes from counting .entries, .map, spread operator, .min which are all loops
+// Space: O(2n) from .entries and .map array -> O(n)
+function getMaxServing(recipe, available) {
+  return (
+    Math.min(
+      ...Object.entries(recipe).map(
+        ([ingred, requiredAmnt]) => available[ingred] / requiredAmnt,
+      ),
+    ) || 0
+  );
+}
 
 module.exports = {
   getMaxServings,

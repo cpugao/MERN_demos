@@ -65,6 +65,84 @@ const expected4 = 0;
 const keys5 = [];
 const expected5 = user;
 
-function lens(obj, keys) {}
+/**
+ * Retrieves the value at the end of the path of
+ * @keys or null.
+ * @param   {Object} obj
+ * @param   {Array<string>} keys
+ * @return  {any}
+ *          The value at end of path of @keys
+ *          or null.
+ * Time     O(n) linear
+ *          n = @keys length
+ * Space    O(n)
+ */
+function lens(obj, keys) {
+  let val = obj;
+
+  for (const currKey of keys) {
+    if (val === undefined || val === null) {
+      return null;
+    }
+
+    // go deeper into object, like runner = runner.next
+    // except the key is not named "next" and the key is in a variable
+    val = val[currKey];
+  }
+
+  // when the loop ends we might still have undefined
+  // and our check in the loop won't catch it since loop ended
+  if (val === undefined) {
+    return null;
+  }
+  return val;
+}
+
+// Since reduce stops at the last key, if the last key's val is undefined, the logic inside reduce
+// won't catch it and return null, but undefined || null at the end will return null
+function lensReduce(obj, keys) {
+  const val = keys.reduce(
+    (val, key) => (val === undefined || val === null ? null : val[key]),
+    obj,
+  );
+  return val === undefined ? null : val;
+}
+
+// .reduce + optional chaining (optional chaining only works in node version 14+)
+// function lensReduce2(obj, keys) {
+//   const val = keys.reduce((curr, key) => curr?.[key], obj);
+//   return val === undefined ? null : val;
+// }
+
+// recursive slns from Morley Tatro
+function simpleLensRecursive(obj, keys) {
+  if (!keys.length) {
+    return obj;
+  }
+  if (obj === undefined || obj === null) {
+    return null;
+  }
+  return simpleLensRecursive(obj[keys[0]], keys.slice(1));
+}
+
+/* 
+  This can be used to allow the path to be passed in as either an array of strings
+  or a string itself that uses dot and/or bracket notation
+*/
+function splitKeyPath(path) {
+  if (Array.isArray(path)) {
+    return path;
+  }
+
+  if (typeof path === "string") {
+    // regex to split into array based on brackets or period as separator / delimiter
+    // .filter(Boolean) will return any empty string elements that are sometimes
+    // present in the array .split returns
+    return path.split(/[\\\[\\\].]/).filter(Boolean);
+  }
+  // if the type isn't either string or array so loop ran on the return
+  // of this function won't break
+  return [];
+}
 
 module.exports = { lens };
