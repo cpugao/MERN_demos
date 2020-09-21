@@ -34,7 +34,31 @@ const expected3 = [];
  * @param   {Function} callback
  * @return  {Array<any>}
  *          @arr array with only the remaining items.
+ * Time:    O(n) linear
+ *          n = @arr length
+ * Space:   O(n) due to .splice creating a new array of n length at most
  */
-function dropIt(arr, callback) {}
+function dropIt(arr, callback) {
+  let delCount = 0;
+
+  for (const elem of arr) {
+    const callbackResult = callback(elem);
+
+    if (callbackResult !== true) {
+      delCount++;
+    } else {
+      break;
+    }
+  }
+
+  arr.splice(0, delCount);
+  return arr;
+}
+
+function dropItFunctional(arr, callback) {
+  const delCount = arr.findIndex((elem) => callback(elem) === true);
+  arr.splice(0, delCount === -1 ? arr.length : delCount);
+  return arr;
+}
 
 module.exports = { dropIt };
