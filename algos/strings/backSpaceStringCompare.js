@@ -36,9 +36,72 @@ const expected4 = false;
  *          @S and @T contain "#" chars which represent
  *          a backspace that needs to be processed.
  * @return  {boolean}
- * Time:    O()
- * Space:   O()
+ * Time:    O(n + m + p) -> O(n) linear
+ *          n = @S length from the get stack fn
+ *          m = @T length from the get stack fn
+ *          p = the length of @S and @T after the
+ *          backspaces were removed.
+ * Best:    O(n + m) because the earliest exit is
+ *          after the two getBackspacedStack calls.
+ * Space:   O(n + m)
  */
-function backspaceStringCompare(S, T) {}
+function backspaceStringCompare(S, T) {
+  const sBackspaced = getBackspacedStack(S);
+  const tBackspaced = getBackspacedStack(T);
+
+  if (sBackspaced.length !== tBackspaced.length) {
+    return false;
+  }
+
+  for (let i = 0; i < sBackspaced.length; i++) {
+    if (sBackspaced[i] !== tBackspaced[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function getBackspacedStack(str) {
+  const backspacedStack = [];
+
+  for (const char of str) {
+    if (char !== "#") {
+      backspacedStack.push(char);
+    } else if (backspacedStack.length > 0) {
+      backspacedStack.pop();
+    }
+  }
+
+  return backspacedStack;
+}
+
+function backspaceCompare2(S, T) {
+  let sBackspaced = processBackspaces(S);
+  let tBackspaced = processBackspaces(T);
+
+  if (sBackspaced === tBackspaced) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function processBackspaces(s) {
+  let backspaceCount = 0;
+  let newS = "";
+
+  for (let i = s.length - 1; i >= 0; --i) {
+    let isBackspace = s[i] === "#";
+
+    if (backspaceCount > 0 && !isBackspace) {
+      backspaceCount--;
+    } else if (isBackspace) {
+      backspaceCount++;
+    } else {
+      newS = s[i] + newS;
+    }
+  }
+  return newS;
+}
 
 module.exports = { backspaceStringCompare };

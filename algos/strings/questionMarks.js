@@ -29,9 +29,38 @@ const expected4 = false;
  * EVERY two ints that add up to 10.
  * @param   {string} str
  * @return  {boolean}
- * Time:    O()
- * Space:   O()
+/**
+ * Time:    O(n) linear
+ *          n = @str length
+ * Space:   O(1)
  */
-function questionMarks(str) {}
+function questionMarks(str) {
+  let prevInt = 0;
+  let qMarkCnt = 0;
+  let sumTenExists = false;
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === "?") {
+      ++qMarkCnt;
+    } else {
+      const parsed = parseInt(str[i]);
+
+      // not not a number means it's a number
+      if (!isNaN(parsed)) {
+        if (prevInt + parsed === 10) {
+          sumTenExists = true;
+
+          if (qMarkCnt !== 3) {
+            return false;
+          }
+        } else {
+          prevInt = parsed;
+          qMarkCnt = 0;
+        }
+      }
+    }
+  }
+  return sumTenExists ? true : false;
+}
 
 module.exports = { questionMarks };
