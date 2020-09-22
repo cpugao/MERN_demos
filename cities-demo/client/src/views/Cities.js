@@ -6,7 +6,10 @@ const Cities = (props) => {
   // console.log(props);
 
   // before we get a response from our DB, our data is null
+  const [allCities, setAllCities] = useState(null);
   const [cities, setCities] = useState(null);
+  const [searchBy, setSearchBy] = useState("name");
+  const [searchMethod, setSearchMethod] = useState("includes");
 
   // arguments passed to useEffect
   // arg1: call back function
@@ -16,6 +19,7 @@ const Cities = (props) => {
       .get("http://localhost:8000/api/cities")
       .then((res) => {
         console.log(res);
+        setAllCities(res.data);
         setCities(res.data);
       })
       .catch((err) => {
@@ -50,6 +54,53 @@ const Cities = (props) => {
 
   return (
     <div className="container mt-5">
+      <div className="form-group">
+        <label>Search By: </label>
+        <select
+          onChange={(event) => {
+            setSearchBy(event.target.value);
+          }}
+          className="form-control"
+        >
+          <option value="name">Name</option>
+          <option value="population">Population</option>
+        </select>
+
+        <label>Search Method: </label>
+        <select
+          onChange={(event) => {
+            setSearchMethod(event.target.value);
+          }}
+          className="form-control"
+        >
+          <option value="includes">Includes</option>
+          <option value="startsWith">Starts With</option>
+          <option value="endsWith">Ends With</option>
+        </select>
+
+        <label>Search For</label>
+        <input
+          onChange={(event) => {
+            const searchFor = event.target.value;
+
+            if (searchFor === "") {
+              setCities(allCities);
+            }
+
+            const filteredCities = allCities.filter((city) => {
+              // because population is an int we need to convert to string in case
+              // because .includes is a string method
+              return String(city[searchBy])
+                .toLowerCase()
+                [searchMethod](searchFor.toLowerCase());
+            });
+
+            setCities(filteredCities);
+          }}
+          className="form-control"
+        />
+      </div>
+      <hr />
       {cities.map((city) => {
         return (
           <div className="row mb-2 justify-content-center" key={city._id}>
