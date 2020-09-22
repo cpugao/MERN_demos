@@ -56,3 +56,6 @@
 1. Mon
    - [dropIt](../../callbacks/dropIt.js)
    - [canStringBecomePalindrome](../../strings/canStringBecomePalindrome.js)
+2. Tue
+   - [questionMarks](../../strings/questionMarks.js)
+   - [backSpaceStringCompare](../../strings/backSpaceStringCompare.js)
