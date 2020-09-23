@@ -59,3 +59,5 @@
 2. Tue
    - [questionMarks](../../strings/questionMarks.js)
    - [backSpaceStringCompare](../../strings/backSpaceStringCompare.js)
+3. Wed
+   - [LRUCache](../../design/LRUCache.js)
