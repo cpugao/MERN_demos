@@ -27,11 +27,177 @@
       2. function that takes a key and returns a value or -1 if key doesn't exist
     - then wrap these functions into a class as methods and the other necessary vars as properties of the class
     - then think about the other requirements and where to go next
-
 */
 
+const { DoublyLinkedList } = require("../data_structures/DoublyLinkedList");
+
+class CacheItem {
+  constructor(value) {
+    this.value = value;
+    this.lastAccessDate = new Date();
+  }
+}
+
+// when keys are accessed / added the same millisecond, using new Date can no longer guarantee the correct order
+// could use hr time here maybe (high resolution time nanoseconds)
 class LRUCache {
-  constructor() {}
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.size = 0;
+    this.cache = {};
+  }
+
+  // Time: O(1) if key exists, O(n) if not -> O(n) linear
+  // Space: O(1)
+  put(key, value) {
+    if (this.cache.hasOwnProperty(key)) {
+      const item = this.cache[key];
+      item.value = value;
+      item.lastAccessDate = new Date();
+    } else {
+      if (this.size === this.capacity) {
+        delete this.cache[this.getLRUKey()];
+        this.size--;
+      }
+      this.cache[key] = new CacheItem(value);
+      this.size++;
+    }
+  }
+
+  // Time: O(1) constant
+  // Space: O(1)
+  get(key) {
+    if (this.cache.hasOwnProperty(key)) {
+      const cacheItem = this.cache[key];
+      cacheItem.lastAccessDate = new Date();
+      return cacheItem.value;
+    } else {
+      return -1;
+    }
+  }
+
+  // Time: O(n) linear
+  // Space: O(1) constant
+  getLRUKey() {
+    let oldestAccessTime = new Date();
+    let LRUKey;
+
+    for (const key in this.cache) {
+      const accessTime = this.cache[key].lastAccessDate;
+
+      if (accessTime < oldestAccessTime) {
+        LRUKey = key;
+        oldestAccessTime = accessTime;
+      }
+    }
+    return LRUKey;
+  }
+}
+
+// To be able to differentiate between least recently used keys when they were both accessed same time (same millisecond)
+class LRUCache2 {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.leastUsedKeyQueue = [];
+    this.cache = {};
+  }
+
+  // Time: O(2n) if key exists (splice + indexOf), O(n) if not from shift -> O(n) linear
+  // Space: O(1) constant
+  put(key, value) {
+    if (this.cache.hasOwnProperty(key)) {
+      this.leastUsedKeyQueue.splice(this.leastUsedKeyQueue.indexOf(key), 1);
+    } else if (this.leastUsedKeyQueue.length === this.capacity) {
+      delete this.cache[this.leastUsedKeyQueue.shift()];
+    }
+
+    this.cache[key] = value;
+    this.leastUsedKeyQueue.push(key);
+  }
+
+  // Time: O(2n) -> O(n) linear
+  // Space: O(1)
+  get(key) {
+    if (this.cache.hasOwnProperty(key)) {
+      this.leastUsedKeyQueue.splice(this.leastUsedKeyQueue.indexOf(key), 1);
+      this.leastUsedKeyQueue.push(key);
+      return this.cache[key];
+    } else {
+      return -1;
+    }
+  }
+}
+
+// O(1) time solution using new Map, hash map in js which preservers key insertion order: https://leetcode.com/problems/lru-cache/discuss/596751/JavaScript-O(1)-time-using-Map-as-ordered-dict
+
+class LRUCache3 {
+  constructor(capacity) {
+    this.cache = new Map();
+    this.capacity = capacity;
+  }
+
+  get(key) {
+    if (this.cache.has(key)) {
+      const y = this.cache.get(key);
+      this.put(key, y);
+      return y;
+    }
+    return -1;
+  }
+
+  put(key, value) {
+    this.cache.delete(key);
+    this.cache.set(key, value);
+
+    if (this.cache.size > this.capacity) {
+      const least = this.cache.keys().next().value;
+      this.cache.delete(least);
+    }
+  }
+}
+
+// Time: O(1) constant, since removeNode by reference (in a doubly linked list), insertAtFront, delete key are all O(1) time
+// Space: O(2n) -> O(n) linear
+class LRUCache4 {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.size = 0;
+    this.cache = new DoublyLinkedList();
+    this.cacheTable = {};
+  }
+
+  // since we always move node to the front after it's been used, the least recently used will always be the tail
+  get(key) {
+    if (this.cacheTable.hasOwnProperty(key)) {
+      this.moveToFront(key);
+      return this.cache.head.data.val;
+    }
+    return -1;
+  }
+
+  put(key, val) {
+    if (this.cacheTable.hasOwnProperty(key)) {
+      this.cacheTable[key].data.val = val;
+      this.moveToFront(key);
+    } else {
+      if (this.size === this.capacity) {
+        const removedNode = this.cache.removeTail();
+        delete this.cacheTable[removedNode.data.key];
+        this.size--;
+      }
+
+      this.cache.insertAtFront({ key, val });
+      this.cacheTable[key] = this.cache.head;
+      this.size++;
+    }
+  }
+
+  moveToFront(key) {
+    const node = this.cacheTable[key];
+    this.cache.removeNode(node);
+    this.cache.insertAtFront(node.data);
+    this.cacheTable[key] = this.cache.head;
+  }
 }
 
 // Tests, create your LRUCache implementation above this then run the file when ready to test
