@@ -61,3 +61,6 @@
    - [backSpaceStringCompare](../../strings/backSpaceStringCompare.js)
 3. Wed
    - [LRUCache](../../design/LRUCache.js)
+4. Thur
+   - [addHonorific](../../strings/addHonorific.js)
+   - [compareVersionNumbers](../../strings/compareVersionNumbers.js)
