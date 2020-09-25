@@ -50,9 +50,68 @@ const expected11 = "twelve o' clock";
  * @param   {number} min
  * @return  {string}
  *          The time in words.
- * Time:    O()
- * Space:   O()
+ * Time:    O(1) constant
+ * Space:   O(1)
  */
-function timeInWords(hour, min) {}
+function timeInWords(h, m) {
+  const timeWords = [
+    "o' clock",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "quarter",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+    "twenty",
+    "twenty one",
+    "twenty two",
+    "twenty three",
+    "twenty four",
+    "twenty five",
+    "twenty six",
+    "twenty seven",
+    "twenty eight",
+    "twenty nine",
+    "half",
+  ];
+
+  let hour = h,
+    min = m,
+    temporalPreposition = "past",
+    minuteNoun = "minutes ";
+
+  // calc minutes til next hour and increment hour
+  if (min > 30) {
+    min = 60 - m;
+    // increment from 12 to 1, otherwise increment by 1
+    hour = h === 12 ? 1 : h + 1;
+    temporalPreposition = "to";
+  }
+
+  if (min == 15 || min == 30) {
+    minuteNoun = "";
+  } else if (min == 1) {
+    minuteNoun = "minute ";
+  }
+
+  const hourWord = timeWords[hour],
+    minWord = timeWords[min];
+  return min === 0
+    ? `${hourWord} ${minWord}`
+    : `${minWord} ${minuteNoun}${temporalPreposition} ${hourWord}`;
+}
 
 module.exports = { timeInWords };

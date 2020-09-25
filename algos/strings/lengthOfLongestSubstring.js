@@ -26,9 +26,109 @@ const expected4 = 4;
  * @param   {string} str
  * @return  {number}
  *          Length of the longest substring in @str
+ * Determines the length of the longest substring in the given @str
+ * @param   {string} str
+ * @return  {number}
+ *          Length of the longest substring in @str
  * Time:    O()
  * Space:   O()
  */
 function lengthOfLongestSubString(str) {}
+
+module.exports = { lengthOfLongestSubString };
+
+/* ******************************************************************************** */
+
+/**
+ * Context: Starting from each character,
+ *          go forward as far as possible
+ *          until a dupe is reached.
+ * Time:    O(n^3) cubed
+ *          .includes is the 2nd nested loop
+ * Space:   O(n) linear
+ */
+function lengthOfLongestSubString(str) {
+  let maxLen = 0;
+  let subStr = "";
+
+  for (let i = 0; i < str.length; i++) {
+    subStr = "";
+
+    // if remaining chars left are fewer than current maxLen
+    // it's not possible for there to be a longer subStr
+    if (str.length - i <= maxLen) {
+      return maxLen;
+    }
+
+    for (let j = i; j < str.length; j++) {
+      if (subStr.includes(str[j])) {
+        break;
+      } else {
+        subStr += str[j];
+      }
+    }
+
+    if (subStr.length > maxLen) {
+      maxLen = subStr.length;
+    }
+  }
+  return maxLen;
+}
+
+// Time: O(n^2)
+// Time: O(n)
+function lengthOfLongestSubString2(str) {
+  let maxLen = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    let count = 0;
+    let seen = {};
+
+    if (str.length - i <= maxLen) {
+      return maxLen;
+    }
+
+    for (let j = i; j < str.length; j++) {
+      let char = str[j];
+
+      if (seen.hasOwnProperty(char)) {
+        break;
+      } else {
+        seen[char] = true;
+        count++;
+      }
+    }
+
+    if (count > maxLen) {
+      maxLen = count;
+    }
+  }
+  return maxLen;
+}
+
+// src = Morley Tatro
+// Time: O(n) linear
+// Space: O(n)
+function longestSubstring(str) {
+  const seenChars = {};
+  let longest = 0,
+    startIndex = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+
+    if (seenChars.hasOwnProperty(char) && startIndex <= seenChars[char]) {
+      startIndex = seenChars[char] + 1;
+    }
+
+    seenChars[char] = i;
+    const diff = i - startIndex + 1;
+
+    if (diff > longest) {
+      longest = diff;
+    }
+  }
+  return longest;
+}
 
 module.exports = { lengthOfLongestSubString };
