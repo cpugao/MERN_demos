@@ -64,3 +64,7 @@
 4. Thur
    - [addHonorific](../../strings/addHonorific.js)
    - [compareVersionNumbers](../../strings/compareVersionNumbers.js)
+5. Fri
+   - [lengthOfLongestSubstring](../../strings/lengthOfLongestSubstring.js)
+   - [canBuildS1FromS2](../../strings/canBuildS1FromS2.js)
+   - [timeInWords](../../strings/timeInWords.js)
